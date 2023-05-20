@@ -48,6 +48,56 @@ public class EmployeeServiceImpl implements EmployeeService {
         return makeEmployeeResponse(employees);
     }
 
+    @Override
+    public void insert(EmployeeDto employeeDto) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employee,employeeDto);
+        employeeRepository.save(employee);
+    }
+
+    @Override
+    public void update(EmployeeDto employeeDto, long id) {
+        Employee employee = getEmployeeById(id);
+
+        employee.setName(employee.getName());
+        employee.setSurname(employee.getSurname());
+        employee.setAge(employee.getAge());
+        employee.setSalary(employee.getSalary());
+
+        employeeRepository.save(employee);
+    }
+
+    @Override
+    public void updateSome(EmployeeDto employeeDto, long id) {
+        Employee employee = getEmployeeById(id);
+
+        if(employeeDto.getName()!=null)
+        employee.setName(employee.getName());
+
+        if(employeeDto.getSurname()!=null)
+        employee.setSurname(employee.getSurname());
+
+        if(employeeDto.getAge()>0)
+        employee.setAge(employee.getAge());
+
+        if(employeeDto.getSalary()!=0)
+        employee.setSalary(employee.getSalary());
+
+        employeeRepository.save(employee);
+    }
+
+    @Override
+    public void delete(long id) {
+        Employee employee = getEmployeeById(id);
+        employeeRepository.delete(employee);
+    }
+
+    private Employee getEmployeeById(long id){
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new CustomRestException(ErrorCodeEnum.EMPLOYEE_NOT_FOUND));
+    }
+
+
     private EmployeeDto convertToDto(Employee employee){
             EmployeeDto employeeDto = new EmployeeDto();
             BeanUtils.copyProperties(employee,employeeDto);
