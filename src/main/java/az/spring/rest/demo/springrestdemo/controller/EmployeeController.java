@@ -3,6 +3,9 @@ package az.spring.rest.demo.springrestdemo.controller;
 import az.spring.rest.demo.springrestdemo.rest.model.dto.EmployeeDto;
 import az.spring.rest.demo.springrestdemo.rest.model.response.EmployeeResponse;
 import az.spring.rest.demo.springrestdemo.service.EmployeeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,7 @@ import java.net.http.HttpResponse;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/employees")
+@Tag(name = "Employee services",description = "employee services")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -22,6 +26,7 @@ public class EmployeeController {
     }
 
     @GetMapping("{employee-id}")
+    @Operation(summary = "This gets employee by id")
     public EmployeeDto getEmployee(@PathVariable("employee-id") long id){
         return employeeService.getEmployee(id);
     }
