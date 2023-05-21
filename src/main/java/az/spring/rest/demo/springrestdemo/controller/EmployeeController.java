@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +23,16 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    @GetMapping
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
     public EmployeeResponse getAllEmployees(){
         return employeeService.getAllEmployees();
     }
 
-    @GetMapping("{employee-id}")
+
+
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @GetMapping("/user/{employee-id}")
     @Operation(summary = "This gets employee by id")
     public EmployeeDto getEmployee(@PathVariable("employee-id") long employeeId){
         return employeeService.getEmployee(employeeId);
@@ -43,6 +48,7 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public void insert(@RequestBody @Valid EmployeeDto employeeDto){
         employeeService.insert(employeeDto);
     }
