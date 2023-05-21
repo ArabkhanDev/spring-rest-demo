@@ -3,6 +3,11 @@ spring:
     url: jdbc:mysql://localhost:3306/springdatadb
     username: root
     password: Bilmirem+6944
+  security:
+    user:
+      name: rusif
+      password: 12345
+
 server:
   port: 8088
 
