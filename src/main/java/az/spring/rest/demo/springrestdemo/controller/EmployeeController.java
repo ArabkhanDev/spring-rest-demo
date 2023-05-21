@@ -8,8 +8,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.http.HttpResponse;
 
 @RequiredArgsConstructor
@@ -27,8 +29,8 @@ public class EmployeeController {
 
     @GetMapping("{employee-id}")
     @Operation(summary = "This gets employee by id")
-    public EmployeeDto getEmployee(@PathVariable("employee-id") long id){
-        return employeeService.getEmployee(id);
+    public EmployeeDto getEmployee(@PathVariable("employee-id") long employeeId){
+        return employeeService.getEmployee(employeeId);
     }
 
     @GetMapping("/search")
@@ -41,7 +43,7 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void insert(@RequestBody EmployeeDto employeeDto){
+    public void insert(@RequestBody @Valid EmployeeDto employeeDto){
         employeeService.insert(employeeDto);
     }
 

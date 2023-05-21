@@ -1,7 +1,7 @@
 package az.spring.rest.demo.springrestdemo.service.impl;
 
 import az.spring.rest.demo.springrestdemo.enums.ErrorCodeEnum;
-import az.spring.rest.demo.springrestdemo.exception.CustomRestException;
+import az.spring.rest.demo.springrestdemo.exception.CustomNotFoundException;
 import az.spring.rest.demo.springrestdemo.model.Employee;
 import az.spring.rest.demo.springrestdemo.repository.EmployeeRepository;
 import az.spring.rest.demo.springrestdemo.rest.model.dto.EmployeeDto;
@@ -34,7 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDto getEmployee(long id) {
         return employeeRepository.findById(id)
                 .map(employee -> convertToDto(employee))
-                .orElseThrow(()->new CustomRestException(ErrorCodeEnum.EMPLOYEE_NOT_FOUND));
+                .orElseThrow(()->new CustomNotFoundException(ErrorCodeEnum.EMPLOYEE_NOT_FOUND));
 
     }
 
@@ -94,7 +94,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private Employee getEmployeeById(long id){
         return employeeRepository.findById(id)
-                .orElseThrow(() -> new CustomRestException(ErrorCodeEnum.EMPLOYEE_NOT_FOUND));
+                .orElseThrow(() -> new CustomNotFoundException(ErrorCodeEnum.EMPLOYEE_NOT_FOUND));
     }
 
 
